@@ -1,0 +1,65 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-quick-action-panel header="Edit Product">
+        <template if:true={canEditProduct}>
+       
+        <template if:true={showTable}>
+             <div class="external-events slds-table--header-fixed_container" style="height:20rem;">
+                <div class=" slds-scrollable " style="height:100%;">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-scrollable ">
+            
+                <thead>
+                    <tr>
+                        <th> Product Name</th>
+                        <th> Sales Price</th>
+                        <th> Quantity</th>
+                        <th> Discount</th>
+                        <th> Description</th> 
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={lineItemList} for:item="LI" for:index="index">
+                        <tr key={LI.Id}>
+                            <td>
+                        <lightning-input label="Product" value={LI.Name} access-key={index} variant="label-hidden" disabled></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input label="SalesPrice" value={LI.Sales_Price__c} access-key={index} variant="label-hidden" onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input label="Quantity" value={LI.Quantity__c} access-key={index} variant="label-hidden" onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input label="Discount" value={LI.Discount__c} access-key={index} variant="label-hidden" onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-input label="Description" value={LI.Description__c} access-key={index} variant="label-hidden" onchange={handleInputChange}></lightning-input>
+                    </td>
+                    <td>
+                        <lightning-icon icon-name="utility:delete" alternative-text="delete" access-key={index} id={LI.Id} size="small" onclick={deleteLineItem} onchange={handleInputChange}></lightning-icon>
+                    </td>
+                    </tr>
+                    </template>
+                </tbody>
+            </table>
+                </div>
+             </div>
+
+        </template>
+
+        <div slot="footer">
+            <lightning-button label="Cancel" variant="neutral" onclick={handleCancelClick}></lightning-button>
+            <template if:true={showSave}>
+            <lightning-button label="Save" variant="brand" onclick={updateLineItems}></lightning-button>
+        </template>
+        </div>
+
+
+    </template>
+    <template if:false={canEditProduct}>
+        <output> <div class="slds-text-heading_medium" style="color:red">You cannot Edit or Delete Product because payment is received. </div></output>
+    </template>
+    </lightning-quick-action-panel>
+    
+</template>
